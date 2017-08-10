@@ -1,0 +1,26 @@
+div.orgChart {
+	height: 500px;
+	overflow-x: scroll;
+}
+div.orgChart div.node {
+	cursor: pointer;
+	height: auto;
+}
+div.orgChart div.node.level1 {
+	background-color: #fbcece;
+}
+div.orgChart div.node.level1.special {
+	background-color: white;
+}
+div.orgChart div.node.level2 {
+	background-color: #cefbce;
+}
+div.orgChart div.node.level3 {
+	background-color: #e0cefb;
+}
+div.orgChart div.node.level4 {
+	background-color: #e0fbce;
+}
+div.orgChart div.node.level5 {
+	background-color: #fbcee0;
+}

@@ -1,0 +1,21 @@
+<html>
+<head>
+</head>
+<body>
+<%= @msg[:customer_mail] %>,
+<br>
+<br>
+Our <%= @msg[:creator_mail] %> provide a FTP for you, the FTP information is listed as follow:<br>
+FTP SITE: <%= $svnrootserver %><br>
+Username: <%= @msg[:ftp_name] %><br>
+Password: <%= @msg[:ftp_password] %><br>
+Expire: <%= @msg[:ftp_expire] %><br>
+<br>
+<br>
+Note: This message is sent automatically, please do not reply
+</body>
+</html>
+
+
+
+

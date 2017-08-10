@@ -1,0 +1,125 @@
+<%= call_hook(:view_issues_form_details_top, { :issue => @issue, :form => f }) %>
+
+<div id="issue_descr_fields" <%= 'style="display:none"' unless @issue.new_record? || @issue.errors.any? %>>
+<p><%= f.select :tracker_id, @project.trackers.collect {|t| [t.name, t.id]}, {}, :required => true, :onchange => 'trackersChange(this.options[this.selectedIndex].value);' %></p>
+<%= observe_field :issue_tracker_id, :url => { :action => :new, :project_id => @project, :id => @issue },
+                                     :update => :attributes,
+                                     :with => "Form.serialize('issue-form')" %>
+
+<p><%= f.text_field :subject, :size => 80, :required => true %></p>
+                                     
+<% if User.current.allowed_to?(:manage_subtasks, @project) %>
+<p id="parent_issue"><%= f.text_field :parent_issue_id, :size => 10 %></p>
+<div id="parent_issue_candidates" class="autocomplete"></div>
+<%= javascript_tag "observeParentIssueField('#{auto_complete_issues_path(:id => @issue, :project_id => @project) }')" %>
+<% end %>
+
+<p><%= f.text_area :description,
+                   :cols => 60,
+                   :rows => (@issue.description.blank? ? 10 : [[10, @issue.description.length / 50].max, 100].min),
+                   :accesskey => accesskey(:edit),
+                   :class => 'wiki-edit' %></p>
+
+<!--===========================新增代码 start==============================-->
+<!--模板添加JavaScript-->
+<script type="text/javascript">
+    //问题跟踪类型obj
+    var issue_tracker_obj = document.getElementById("issue_tracker_id");
+    //问题描述obj
+    var issue_description_obj = document.getElementById("issue_description");
+
+    /*新建时，初始化问题描述为BUG模板*/
+    if(issue_tracker_obj.value == "1") {
+      //描述value
+      var description_value = issue_description_obj.value.trim();
+      if(description_value.length <= 0 || description_value == "") { //判断问题描述是否为空，为空则初始化，避免更新问题描述时原有描述被覆盖
+        initIssueDescription();
+      }
+    }
+
+    /*初始化描述内容为BUG模板*/
+    function initIssueDescription() {
+      addBugTemplate();
+    }
+
+    /*添加BUG模板*/
+    function addBugTemplate() {
+      var bugTemplate = "" +
+          "【测试环境】\r\n" +
+          "1.\r\n" +
+          "【操作步骤】\r\n" +
+          "1.\r\n" +
+          "【实际结果】\r\n" +
+          "1.\r\n" +
+          "【预期结果】\r\n" +
+          "1.\r\n" +
+          "【出现概率】\r\n" +
+          "1.\r\n" +
+          "【恢复方法】\r\n" +
+          "1.\r\n" +
+          "【备注】\r\n" +
+          "1.\r\n";
+      issue_description_obj.value = bugTemplate;
+    }
+
+    /*添加测试任务模板*/
+    function addTestTaskTemplate() {
+      var testTaskTemplate = "" +
+          "【测试概述】\r\n" +
+          "1.\r\n" +
+          "【测试模块分配】\r\n"+
+          "1.\r\n";
+      issue_description_obj.value = testTaskTemplate;
+    }
+
+    /*添加硬件问题模板*/
+    function addHardwareTemplate() {
+      var hardwareTemplate = "" +
+          "【问题描述】\r\n" +
+          "1.\r\n" +
+          "【实测结果】\r\n" +
+          "1.\r\n" +
+          "【预期结果】\r\n"+
+          "1.\r\n";
+      issue_description_obj.value = hardwareTemplate;
+    }
+
+    /*"跟踪"类型change事件*/
+    function trackersChange(value) {
+      var selValue = value;
+      if(selValue != "") {
+        if(selValue == "1") { //跟踪类型选择"错误"时，设置描述默认为BUG模板
+          addBugTemplate();
+        } else if(selValue == "11") { //跟踪类型选择"测试任务"时，设置描述默认为测试任务模板
+          addTestTaskTemplate();
+        } else if(selValue == "13") {
+          addHardwareTemplate();
+        } else { //跟踪类型选择其他时，描述默认为空
+          issue_description_obj.value = "";
+        }
+      }
+    }
+</script>
+<!--===========================新增代码 end==============================-->
+
+</div>
+
+<div id="attributes" class="attributes">
+	<%= render :partial => 'issues/attributes' %>
+</div>
+
+<% if @issue.new_record? %>
+<p id="attachments_form"><%= label_tag('attachments[1][file]', l(:label_attachment_plural))%><%= render :partial => 'attachments/form' %></p>
+<% end %>
+
+<% if @issue.new_record? && User.current.allowed_to?(:add_issue_watchers, @project) -%>
+<p id="watchers_form"><label><%= l(:label_issue_watchers) %></label>
+<% @issue.project.users.sort_by {|u| u.login}.each do |user| -%>
+<label class="floating"><%= check_box_tag 'issue[watcher_user_ids][]', user.id, @issue.watched_by?(user) %> <%=h user %></label>
+<% end -%>
+</p>
+<% end %>
+
+<%= call_hook(:view_issues_form_details_bottom, { :issue => @issue, :form => f }) %>
+
+<%= wikitoolbar_for 'issue_description' %>

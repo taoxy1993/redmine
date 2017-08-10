@@ -1,0 +1,8 @@
+<h2><%= l(:timesheet_title)%></h2>
+
+<%= render :partial => 'form' %>
+
+<% content_for(:header_tags) do %>
+<%= stylesheet_link_tag "timesheet.css", :plugin => "timesheet_plugin", :media => 'all' %>
+<%= javascript_include_tag 'timesheet.js', :plugin => 'timesheet_plugin' %>
+<% end %>

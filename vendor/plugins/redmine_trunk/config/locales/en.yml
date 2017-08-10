@@ -1,0 +1,6 @@
+# English strings go here for Rails i18n
+en:
+  button_freeze: "freeze"
+  button_unfreeze: "unfreeze"
+  trunk_status_normal: "normal"
+  trunk_status_frozen: "frozen"

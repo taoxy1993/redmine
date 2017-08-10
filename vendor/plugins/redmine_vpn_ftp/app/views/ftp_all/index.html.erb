@@ -1,0 +1,58 @@
+<% content_for :header_tags do %>
+    <%= stylesheet_link_tag 'ftpvpn', :plugin => 'redmine_vpn_ftp' %>
+<% end %>
+
+
+<h2>FTP管理</h2>
+
+<div>
+  <h3>
+  <%= link_to 'FTP管理', { :controller => 'ftp_all', :action => 'index' }%> |
+  <%= link_to 'VPN管理', { :controller => 'vpn_all', :action => 'index' }%>
+  </h3>
+</div>
+
+<br>
+注意事项：<br>
+● 严禁上传与工作无关的任何文件及作为个人用。<br>
+● 所有上传的文件都将被转储。<br>
+● 不得泄露FTP账户及密码给无关人员。<br>
+● 请敦促客户在给定时间内完成文件的上传或下载。<br>
+● 对于不同的客户（或同一公司的不同项目）应使用不同的账户。<br>
+<br>
+
+<%= form_tag('/ftp_all/ftp_new')%>
+<div>
+  <table>
+    <tr>
+      <td>客户E-Mail</td>
+      <td><%= text_field_tag "customermail", "", :size => 40 %></td>
+      <td><%= submit_tag "创建新账户" %></td>
+  </table>
+</div>
+
+<br>
+
+<div class="autoscroll">
+<table class="ftplist">
+  <thead >
+    <tr>
+      <th>URL</th>
+      <th>Customer</th>
+      <th>Message to Customer</th>
+      <th>Kill</th>
+    </tr>
+  </thead>
+  
+<% @ftp_all.each do |ftp| %>
+  <tr align="center" class="<%= cycle("odd", "even") %>">
+    <td><%= link_to "进入", "ftp://" + ftp.name + ftp.passwd + "@" + $svnrootserver %></td>
+    <td><%= ftp.customer %></td>
+    <td><%= "FTP SITE: " + $svnrootserver + "<BR>" + "Username: " + ftp.name + "<BR>" + "Password: " + ftp.passwd + "<BR>" + "Expire: " + DateTime.parse(ftp.expire.to_s).strftime('%Y-%m-%d %H:%M:%S').to_s %></td>
+    <td><%= link_to '删除本账户',  { :controller => 'ftp_all', :action => 'ftp_kill', :username => ftp.name }, :confirm => 'Are you sure?' %></td>
+  </tr>
+<% end%>
+</table>
+</div>
+
+

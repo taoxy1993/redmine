@@ -1,0 +1,48 @@
+<div class="contextual">
+  <%= link_to(l(:button_edit), {:controller => 'departments', :action => 'edit', :id => @department}, :class => 'icon icon-edit') if User.current.admin? %>
+</div>
+
+<h2><%= link_to '部门', :controller => 'departments', :action => 'index' %> &#187; <%=h @department.name %></h2>
+
+<div class="splitcontentleft">
+  <fieldset><legend><%= '部门简介' %></legend>
+
+  <p><label for="department_name"><%= '部门名称'%>: <%= @department.name %></label></p>
+
+  <% unless @department.allowed_parents.compact.empty? %>
+    <p><label for="department_parent_id"><%= '上级部门'%>: <%= @department.parent %></label></p>
+  <% end %>
+
+  <p><label for="department_manager_id"><%= '部门负责人' %>: <%= @department.manager %></label></p>
+
+  <div class="wiki">
+    <%= textilizable @department.description %>
+  </div>
+
+  </fieldset>
+</div>
+
+<div class="splitcontentright">
+  <% @dus = DepartmentUser.find(:all, :conditions => ["department_id = ?", @department.id]) %>
+  <% if @dus.empty? %>
+      <p class="nodata"><%= l(:label_no_data) %></p>
+  <% else %>
+    <table class="list users">
+      <thead>
+      <tr>
+        <th><%= l(:label_user) %></th>
+        <th><%= l(:field_mail) %></th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @dus.each do |du| %>
+          <% user = User.find(du.user_id) %>
+          <tr id="user-<%= user.id %>" class="<%= cycle 'odd', 'even' %>">
+            <td class="user" align="center"><%= link_to_user user %></td>
+            <td class="email" align="center"><%= mail_to(h(user.mail)) %></td>
+          </tr>
+      <% end %>
+      </tbody>
+  <% end %>
+  </table>
+</div>

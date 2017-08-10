@@ -1,0 +1,20 @@
+<h2>编译</h2>
+
+<div class="contextual">
+<%= link_to '新建产品', {:controller => 'compile', :action => 'new', :id => @project}, :class => 'icon icon-add' %>
+</div>
+
+<big>
+产品:<br />
+<hr />
+<% @compile.each do |compile| %>
+  <p>
+	<%= compile[:produce] %>    
+  	<%= link_to '在线编译', { :action => 'docompile', :id => @project, :produce => compile[:produce] }, :method => :post%> 
+    <%= link_to '添加产品库', { :action => 'add', :id => @project, :produce => compile[:produce] } %>  
+	<%= link_to '删除', {:controller => 'compile', :action => 'destroy', :id => @project , :produce => compile[:produce]}, :confirm => "您确定要删除此产品项?", :method => :post, :class => 'icon icon-del' %>
+  </p>
+<% end %> 
+</big>
+
+

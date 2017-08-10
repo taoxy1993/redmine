@@ -1,0 +1,59 @@
+ja:
+  label_add_review: レビューを書く
+  label_show_review: レビューを見る
+  code_reviews: コードレビュー
+  code_review: コードレビュー
+  project_module_code_review: コードレビュー
+  label_code_path: パス
+  label_code_reviewer: レビューア
+  label_code_author: コミッタ
+  label_code_line: 行
+
+  label_review_open: オープン中
+  label_review_closed: クローズ
+
+  label_reopen_review: 再オープンする
+  label_close_review: クローズする
+
+  label_code_review_plural: コードレビュー
+
+  label_line_number: "{{line}}行目"
+  notice_review_updated: レビューが更新されました。
+  label_show_closed_reviews: 完了したレビューも表示する。
+  label_review: レビュー
+  label_review_new: レビューが追加されました。
+  review_notify_only_involved_in: 自分が関係しているレビューだけ
+  review_notify_all: 自分のプロジェクトのレビューはすべて
+
+  old_review_data_found: '古い形式のレビューデータが見つかりました。新しい形式に変換しますか？'
+  select_tracker_for_code_reviews: 'コードレビューに割り当てるトラッカーを選択してください。'
+  field_hide_code_review_tab: コードレビュータブを隠す
+  lable_no_code_reviews: 'レビューはありません'
+  field_comment: コメント
+
+  label_if_revision_has_issues: 'リビジョンにチケットが関連付けられていた場合'
+  label_review_issue_relates: 'レビューチケットと関連付ける'
+  label_review_issue_blocks: 'レビューチケットがブロックする'
+  label_review_issue_do_nothing: '何もしない'
+
+  permission_view_code_review: コードレビューの閲覧
+  permission_add_code_review: コードレビューの追加
+  permission_edit_code_review: コードレビューの編集
+  permission_delete_code_review: コードレビューの削除
+  permission_code_review_setting: コードレビューの管理
+  permission_assign_code_review: コードレビューのアサイン
+
+  select_tracker_for_code_review_assignment: 'コードレビューのアサインに使用するトラッカーを選択してください。'
+  field_assignment_tracker: 'トラッカー'
+  review_assignments: レビューアサイン
+  review_assigned_for: レビュー対象
+  code_review_assigned: アサイン済
+  code_review_reviewed: レビュー済み
+  code_review_requrest: レビュー依頼
+
+  label_auto_assign_settings: 自動アサイン
+  label_candidates_of_reviewer: アサイン候補
+  label_auto_assignment_filters: フィルタ
+  auto_assign_filter_expression: 'パス(正規表現:例 "/src/.*\.java$")'
+  auto_assign_filter_assign: アサイン
+  auto_assign_filter_drop: 除外

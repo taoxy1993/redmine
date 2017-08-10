@@ -1,0 +1,59 @@
+hu:
+  label_add_review: Új észrevétel
+  label_show_review: Részletek
+  code_reviews: Kódszemlék
+  code_review: Felülvizsgálat
+  project_module_code_review: Code reviews
+  label_code_path: Elérési út
+  label_code_reviewer: Felülvizsgáló
+  label_code_author: Szerző
+  label_code_line: Sorszám
+
+  label_review_open: Nyitott
+  label_review_closed: Zárt
+
+  label_reopen_review: Vizsgálat újra megnyitása
+  label_close_review: Vizsgálat lezárása
+
+  label_code_review_plural: Kódszemlék
+
+  label_line_number: 'Sor: {{line}}'
+  notice_review_updated: A vizsgálat adatai sikeresen frissültek.
+  label_show_closed_reviews: Lezárt vizsgálatok megjelenítése
+  label_review: vizsgálat
+  label_review_new: Új felülvizsgálat
+  review_notify_only_involved_in: "Csak amiben részt veszek"
+  review_notify_all: "Bármelyik projektemben lévőnél"
+
+  old_review_data_found: 'Some old review records were found. Do you want to convert them to new records ?'
+  select_tracker_for_code_reviews: 'Select the tracker for assign to code reviews.'
+  field_hide_code_review_tab: 'Hide the "Code Reviews" tab.'
+  lable_no_code_reviews: 'No reviews'
+  field_comment: Comment
+
+  label_if_revision_has_issues: 'If revision has one more issues'
+  label_review_issue_relates: 'Review issue relates to them'
+  label_review_issue_blocks: 'Review issue blocks them'
+  label_review_issue_do_nothing: 'Do nothing'
+
+  permission_view_code_review: View code reviews
+  permission_add_code_review: Add code reviews
+  permission_edit_code_review: Edit code reviews
+  permission_delete_code_review: Delete code reiews
+  permission_code_review_setting: Manage code reviews
+  permission_assign_code_review: Assign code reviews
+
+  select_tracker_for_code_review_assignment: 'Select the tracker for code review assignments.'
+  field_assignment_tracker: 'Tracker'
+  review_assignments: Review assignments
+  review_assigned_for: Review assigned for
+  code_review_assigned: Assigned
+  code_review_reviewed: Reviewed
+  code_review_requrest: Review request
+
+  label_auto_assign_settings: Auto assignment
+  label_candidates_of_reviewer: Candidates of reviewer
+  label_auto_assignment_filters: Filters
+  auto_assign_filter_expression: 'Path(Regular expression:ex. "/src/.*\.java$")'
+  auto_assign_filter_assign: Assign
+  auto_assign_filter_drop: Drop

@@ -1,0 +1,74 @@
+<h2>权限分配</h2>
+<!--
+<big>
+	<%= '人员' %><hr \>
+<% @member.each do |member| %>
+	<% @user.each do |user| %>
+  		<% if (user.id==member.user_id) %>
+  		<p > 
+			<%= user %>  
+			<%= link_to '新增权限路劲', {:controller => 'svnmanage', :action => 'allocation', :id => @project, :user => user[:login] }, :class => 'icon icon-add'%>
+  			<br \>
+		 	<% @svnmanage.each do |svnmanage| %>
+		  		<% if user.login == svnmanage.login %>
+		  			<%= svnmanage[:svnpath] %>
+					<%= svnmanage[:wrstatus] %>
+					<%= link_to '删除', {:controller => 'svnmanage', :action => 'destroy', :id => @project , :svnpath => svnmanage[:svnpath] ,:login => svnmanage[:login] }, :confirm => "您确定要删除此授权项?", :method => :post, :class => 'icon icon-del' %>
+					<br \>
+		  		<% end %>
+		  	<% end %>
+		 <hr \>
+ 		 </p>
+		 <% end %>
+	  <% end %>
+<% end %> 
+</big>
+//-->
+
+
+<div class="svnmanage">
+<table class="list">		
+  <tbody>
+<% list_number = 1 %>
+	<thead>
+	<tr>
+		<%= sort_header_tag('svntrunk', :caption => "版本树") %>
+		<%= sort_header_tag('svnpath', :caption => "路劲") %>
+		<%= sort_header_tag('wrstatus', :caption => "读写状态") %>
+		<%= sort_header_tag('delete', :caption => "是否删除？") %>
+	</tr>
+	</thead>
+
+<% for member in @member -%>
+	<% loop_number = 0 %>
+	<% for user_roles in @user_roles -%>
+		<% if(member.id == user_roles.member_id)&&(loop_number == 0)&&((user_roles.role_id == 3)||(user_roles.role_id == 4)||(user_roles.role_id == 8)||(user_roles.role_id == 9)||(user_roles.role_id == 10)) %>	
+			<% for user in @user -%>		
+				<% if ((@login11 == 'liuchl')||(@login11 == 'admin')||(@login11 == 'lihsh')||(@login11 == 'hehy')||(@login11=='lipengmt'))&&(user.id==member.user_id) %>
+					<tr class="user" bgcolor="#F5DEB3">
+				   	<td align="left" class="user"><%= "#{list_number}."%><%=h(user) %><%= "：所拥有权限如下："%></td>
+				   	<td align="center"> </td>
+				   	<td align="center"> </td>
+						<td align="right" class="add"><%=link_to '新增权限路劲', {:controller => 'svnmanage', :action => 'allocation', :id => @project, :user => user[:login] },:class => 'icon icon-add' %></td>
+					</tr>
+					<% list_number += 1 %>
+					<% for svnmanage in @svnmanage -%>
+						<% if user.login == svnmanage.login %>
+						<tr class="svnmanage odd">
+				  		<td align="center" class="svntrunk"><%= h(svnmanage.svn_trunk) %></td>
+							<td align="center" class="svnpath"><%= h(svnmanage.svnpath) %></td>
+							<td align="center" class="wrstatus"><%= h(svnmanage.wrstatus) %></td>
+							<td align="center" class="delete"><%=link_to '删除', {:controller => 'svnmanage', :action => 'destroy', :id => @project , :svnpath => svnmanage[:svnpath] ,:login => svnmanage[:login],:trunkpath => svnmanage.svn_trunk }, :confirm => "您确定要删除此授权项?", :method => :post, :class => 'icon icon-del' %></td>
+						</tr>
+						<% end %>
+					<% end %>
+					<% loop_number = 1 %>
+					<tr><td><hr \></td><td><hr \></td><td><hr \></td><td><hr \></td><</tr>
+			  <% end %>
+			<% end %>
+	  <% end %>
+  <% end -%>
+<% end -%>
+  </tbody>
+</table>
+</div>

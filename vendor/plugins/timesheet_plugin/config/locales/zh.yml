@@ -1,0 +1,17 @@
+zh:
+  timesheet_title: "时间表"
+  timesheet_date_from_label: "开始时间"
+  timesheet_date_to_label: "结束时间"
+  timesheet_project_label: "项目名称"
+  timesheet_activities_label: "动作"
+  timesheet_users_label: "用户名"
+  timesheet_showing_users: 'showing time for: '
+  timesheet_permalink: '(Permalink to this timesheet)'
+  timesheet_group_by:  "索引依据"
+  label_show_project_status: "Projects with the status:"
+  text_active_projects: "Active"
+  text_all_projects: "All (active and archived)"
+  label_user_status: "Show users with the status of"
+  text_active_users: "Active only"
+  text_all_users: "All"
+

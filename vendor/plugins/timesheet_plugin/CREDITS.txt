@@ -1,0 +1,21 @@
+Thanks go to the following people for patches and contributions:
+
+Maintainers
+
+* Eric Davis
+
+Contributors
+
+* Morten Krogh Andersen
+* Peter Chester of Shane and Peter, Inc - Feature sponsorship
+* Anton Dollmaier
+* Mischa The Evil
+* Michele Franzin
+* Fabrice HELMBACHER
+* Sergej Jegorov
+* Gergő Jónás
+* Vladimir Oleynik
+* Shane Pearlman of Shane and Peter, Inc - Feature sponsorship
+* Michael Pirogov
+* Krzysztof Podejma
+* Pau Garcia i Quiles

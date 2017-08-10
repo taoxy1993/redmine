@@ -1,0 +1,29 @@
+<h2>新增路径</h2>
+
+<big>
+本处填写相对路径,如：src/dvb;全部权限请输入:* <br />
+
+<% form_tag do %>
+<p>
+	<lable>成员名称:</label>
+	<%= text_field_tag 'login',@login %><br /><br />
+	<lable>路径名称:</label>
+	<%= text_field_tag 'svnpath' %><br /><br />
+	<lable>读写权限:</label>
+	<%= select_tag 'wrstatus',"<option>rw</option>,<option>r</option>"%>
+</p>
+<p>
+	<%= submit_tag '新建' %>
+	<%= link_to '返回', { :controller => 'svnmanage', :action => 'new', :id => @project }%>
+</p>
+<% end %>
+
+本用户改工程下的授权路径和读写权限如下： <br />
+<% @svnmanage.each do |svnmanage| %>
+  <p>
+	<%= svnmanage[:svnpath] %> 
+	<%= svnmanage[:wrstatus] %>
+   </p>
+<% end %> 
+
+</big>

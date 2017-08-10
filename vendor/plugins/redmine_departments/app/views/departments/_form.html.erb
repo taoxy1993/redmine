@@ -1,0 +1,61 @@
+<%= error_messages_for 'department' %>
+
+<!--[form:department]-->
+<div class="box tabular">
+  <p><label for="department_name"><%= '部门名称'%> <span class="required">*</span></label>
+    <%= text_field(:department, :name, :size => 25) %>
+  </p>
+
+  <p><label for="department_manager_id"><%= '部门负责人' %> <span class="required">*</span></label>
+    <% @users = User.active.find(:all, :conditions => ['type = ? and login not in (?)','User','admin']) %>
+    <%= select(:department, :manager_id, @users.collect{|u| [u.lastname + u.firstname, u.id]}, {:include_blank => true}) %>
+  </p>
+
+  <p><label for="department_sub_manager_id"><%= '部门负责人（可选）' %></label>
+    <% @users = User.active.find(:all, :conditions => ['type = ? and login not in (?)','User','admin']) %>
+    <%= select(:department, :sub_manager_id, @users.collect{|u| [u.lastname + u.firstname, u.id]}, {:include_blank => true}) %>
+  </p>
+
+  <p><label for="department_rank"><%= '部门等级'%> <span class="required">*</span></label>
+    <select name="department[rank]">
+      <option value="0" <%= @department.rank == 0 ? "selected='selected'" : ""%>>公司</option>
+      <option value="1" <%= @department.rank == 1 ? "selected='selected'" : ""%>>一级部门</option>
+      <option value="2" <%= @department.rank == 2 ? "selected='selected'" : ""%>>二级部门</option>
+      <option value="3" <%= @department.rank == 3 ? "selected='selected'" : ""%>>三级部门</option>
+    </select>
+  </p>
+
+  <p><label for="department_parent_id"><%= '上级部门'%>&nbsp;</label>
+    <%= parent_department_select_tag(@department) %>
+  </p>
+
+  <p><label for="department_description"><%= '描述'%>&nbsp;&nbsp;</label>
+    <%= text_area(:department, :description, :rows => 5, :class => 'wiki-edit') %>
+    <%= wikitoolbar_for 'department_description' %>
+  </p>
+
+</div>
+<!--[eoform:department]-->
+
+<!--===========================新增内容 start==============================-->
+<% content_for :header_tags do %>
+  <!--引入jquery-->
+  <%= javascript_include_tag 'jquery.min' %>
+  <!--引入select2-->
+  <%= stylesheet_link_tag 'select2.min' %>
+  <%= javascript_include_tag 'select2.min' %>
+<% end %>
+
+<script type="text/javascript">
+  //jquery代码
+  jQuery(document).ready(function() {
+    //设置指派给select支持搜索
+    jQuery('select').select2({
+      placeholder: '请选择',
+      allowClear: true,
+      width: '210px'
+    });
+
+  });
+</script>
+<!--===========================新增内容 start==============================-->

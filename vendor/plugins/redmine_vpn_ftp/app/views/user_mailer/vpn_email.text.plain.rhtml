@@ -1,0 +1,27 @@
+<%= @msg[:mail_to] %> ：
+
+您好! 这是为您签发的VPN(JN)证书。
+签发日期：<%= @msg[:t_create] %>
+失效日期：<%= @msg[:t_expire] %>
+有效期：<%= @msg[:vpn_days]%>天！
+正常情况下，在到期前3天内会自动续签，并发送新的证书到相同的邮箱，届时请注意查收！
+●
+附件清单
+JN-tls-ca.crt	 根证书
+JN-tls-<%= @msg[:mail_k] %>.conf	 配置文件
+JN-tls-<%= @msg[:mail_k] %>.key	 VPN密钥
+JN-tls-<%= @msg[:mail_k] %>.crt	 VPN证书
+
+●
+如果您的Outlook2003不能下载附件中的部分文件，如.crt。您可能需要按如下步骤编辑注册表：
+1) 启动regedit.exe 
+2) 找到HKEY_CURRENT_USER\Software\Microsoft\Office\11.0\Outlook\Security目录项
+3) 新建/修改 Level1Remove项，类型：string。
+4) 键入您希望在 Outlook 中打开的文件类型的文件扩展名。例如：.crt;.key 
+●
+请将附件中的文件保存至 C:\Program Files\OpenVPN\Config
+另启动 CMD.exe 窗口，在该窗口内依次运行如下命令启动之
+cd "C:\Program Files\OpenVPN\Config"
+..\bin\openvpn.exe --config JN-tls-fangliang.conf
+
+提示：本邮件是自动机发送，请勿回复！

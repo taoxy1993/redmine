@@ -1,0 +1,30 @@
+<h2>发行库</h2>
+<big>
+版本列表:<br />
+<hr />
+</big>
+
+<div class="trunk">
+<table class="list">		
+  <thead><tr>
+	<%= sort_header_tag('username', :caption => "创建者") %>
+	<%= sort_header_tag('reserved1', :caption => "产品") %>
+	<%= sort_header_tag('reserved2', :caption => "链接地址") %>
+	<%= sort_header_tag('releasenote', :caption => "说明") %>
+	<%= sort_header_tag('releasedate', :caption => "日期") %>
+   <th></th>
+  </tr></thead>
+  <tbody>
+<% for publiclib in @publiclib -%>
+  <tr class="releasedate" <%= cycle("odd", "even") %>%> 
+	<td align="center" class="username"><%= h(publiclib.username) %></td>
+	<td align="center" class="reserved1"><%= h(publiclib.reserved1) %></td>
+	<td align="center" class="reserved2"><%= link_to publiclib.reserved2,"#{publiclib.reserved2}",:target=> "_blank" %></td>
+	<td align="center" class="releasenote"><%= h(publiclib.releasenote) %></td>
+	<td align="center" class="releasedate"><%= h(publiclib.releasedate) %></td>
+  </tr>
+<% end -%>
+  </tbody>
+</table>
+</div>
+

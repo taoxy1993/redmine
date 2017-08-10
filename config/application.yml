@@ -1,0 +1,21 @@
+# config/application.yml
+
+production:
+    host_name: "mcv.inspur.com"
+    cmd_sudo: "/usr/bin/sudo -b"
+    cmd_ftpuser: "/opt/ioa/bin/ftpuser.sh"
+    ftp_max_time: 2592000   #30天
+
+development:
+    host_name: "10.180.88.70"
+    cmd_sudo: "/usr/bin/sudo -b"
+    cmd_ftpuser: "/opt/ioa/bin/ftpuser.sh"
+    ftp_max_time: 2592000   #30天
+
+test:
+    host_name: "127.0.0.1"
+    cmd_sudo: "/usr/bin/sudo -b"
+    cmd_ftpuser: "/opt/ioa/bin/ftpuser.sh"
+    ftp_max_time: 2592000   #30天
+
+

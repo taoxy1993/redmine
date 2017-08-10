@@ -1,0 +1,18 @@
+<h2>添加版本库</h2>
+
+<% form_tag do %>
+<big>
+<p>	
+	添加到产品库并编译:<br />
+	<p><label for="reserved3"><%= "版本树ID"%><span class="required"> *</span></label>
+	<%= text_field_tag 'reserved3', @branches, :size => 50  %></p>
+	<p><label for="description"><%= "产品名称"%><span class="required"> *</span></label>
+	<%= text_field_tag 'reserved1', @propuct, :size => 50  %></p>
+	<p><label for=""><%= "发行版本"%><span class="required"> *</span></label>
+	<%= text_field_tag 'releaseversion', nil, :size => 50  %></p>
+	<p><label for="localpath"><%= "发行说明"%><span class="required"> *</span></label>
+	<%= text_field_tag 'releasenote', nil, :size => 150  %></p>
+	<%= submit_tag '新建发行库' %>
+</p>	
+</big>
+<% end %>

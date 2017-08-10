@@ -1,0 +1,33 @@
+<h2>编译</h2>
+
+<div class="contextual">
+<%= link_to '新建产品', {:controller => 'compile', :action => 'new', :id => @project}, :class => 'icon icon-add' %>
+</div>
+
+产品:<br />
+<hr />
+<div class="compile">
+<table class="list">		
+  <thead><tr>
+	<%= sort_header_tag('trunk', :caption => "版本树") %>
+	<%= sort_header_tag('branches', :caption => "产品") %>
+	<%= sort_header_tag('compile', :caption => "编译") %>
+	<%= sort_header_tag('prodeuce', :caption => "版本库") %>
+	<%= sort_header_tag('delete', :caption => "删除") %>
+    <th></th>
+  </tr></thead>
+  <tbody>
+<% for compile in @compile -%>
+  <tr class="trunk" <%= cycle("odd", "even") %>>
+	<td align="center" class="trunk"><%= h(compile.branches) %></td>
+	<td align="center" class="branches"><%= h(compile.produce) %></td>
+	<td align="center" class="compile"><%=link_to "在线编译", { :action => 'choose', :id => @project, :produce => compile[:produce], :branches => compile[:branches]}, :method => :get %></td>
+  <td align="center" class="prodeuce"><%=link_to "添加产品库", { :action => 'add', :id => @project, :produce => compile[:produce], :branches => compile[:branches] }, :target=> "_blank" %></td>
+  <td align="center" class="delete"><%=link_to "删除", {:controller => 'compile', :action => 'destroy', :id => @project , :produce => compile[:produce]}, :confirm => "您确定要删除此产品项?", :method => :post, :class => 'icon icon-del' %></td>
+  </tr>
+<% end -%>
+  </tbody>
+</table>
+</div>
+
+

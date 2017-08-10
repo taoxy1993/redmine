@@ -1,0 +1,6 @@
+# English strings go here for Rails i18n
+zh:
+  button_freeze: "冻结"
+  button_unfreeze: "解冻"
+  trunk_status_normal: "正常"
+  trunk_status_frozen: "已冻结"

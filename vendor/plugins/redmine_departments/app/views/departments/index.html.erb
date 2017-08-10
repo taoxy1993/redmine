@@ -1,0 +1,43 @@
+<div class="contextual">
+  <%= link_to "新建部门", {:action => 'new'}, :class => 'icon icon-add' %> |
+  <%= link_to "组织架构", {:action => 'orgchart'}, :class => 'groups' %>
+</div>
+
+<h2>部门</h2>
+
+<div class="autoscroll">
+  <table class="list">
+    <thead>
+    <tr>
+      <th><%="部门名称"%></th>
+      <th><%="部门负责人"%></th>
+      <th><%="部门等级"%></th>
+      <th><%= "操作"%></th>
+    </tr>
+    </thead>
+    <tbody>
+    <% department_tree(@departments) do |department, level| %>
+    <tr class="<%= cycle("odd", "even") %> <%= department.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
+      <td class="name">
+        <%= link_to(department.name, :action => 'show', :id => department)%>
+      </td>
+      <td class="manager_id" align="center">
+        <% @user = User.find(department.manager_id)%>
+        <%= link_to(@user, :controller => 'users', :action => 'show', :id => @user) %>
+      </td>
+      <td class="rank" align="center">
+        <%= department.rank %>
+      </td>
+      <td class="buttons">
+        <%= link_to l(:button_edit),
+                    {:controller => 'departments', :action => 'edit', :id => department},
+                    {:class => 'icon icon-edit'} %>
+        <%= link_to l(:button_delete),
+                    {:controller => 'departments', :action => 'destroy', :id => department},
+                    {:confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-del'} %>
+      </td>
+    </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>

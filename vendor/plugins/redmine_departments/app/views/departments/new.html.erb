@@ -1,0 +1,9 @@
+<h2><%= link_to '部门', :controller => 'departments', :action => 'index' %> &#187; <%= '新建部门'%></h2>
+
+<% form_tag({:controller => 'departments', :action => 'new'}) do%>
+    <%= render :partial => 'form'%>
+    <p>
+      <%= submit_tag l(:button_create) %>
+      <%= submit_tag l(:button_create_and_continue), :name => 'continue' %>
+    </p>
+<% end %>

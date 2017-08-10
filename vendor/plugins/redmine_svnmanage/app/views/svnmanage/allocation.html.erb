@@ -1,0 +1,48 @@
+<h2>新增路径</h2>
+
+<big>
+本处填写相对路径,如：src/dvb;全部权限请输入:* <br />
+
+<% form_tag do %>
+<p>
+	<label>成员名称:</label>
+	<%= text_field_tag 'login',@login ,:readOnly=> 1 %><br /><br />
+	<label>主线名称:</label>
+	<%= select_tag 'repository_name',options_for_select(@trunk.collect{|s| [s.repository_name]}.insert(0))  %> <br /><br />
+	<label>分支名称:</label>
+   <%= select_tag 'branches',options_for_select(@tag.collect{|s| [s.branches]}.insert(0))  %> <br /><br />
+	<label>路径名称:</label>
+	<%= text_field_tag 'svnpath' %><br /><br />
+	<label>读写权限:</label>
+	<%= select_tag 'wrstatus',"<option>rw</option>,<option>r</option>" %>  
+</p>
+<p>
+	<%= submit_tag '新建' %>
+	<%= link_to '返回', { :controller => 'svnmanage', :action => 'new', :id => @project }%>
+</p>
+<% end %>
+
+本用户该工程下的授权路径和读写权限如下： <br />
+<div class="svnmanage">
+<table class="list">
+	<thead>
+	<tr>
+		<%= sort_header_tag('svntrunk', :caption => "版本树") %>
+		<%= sort_header_tag('svnpath', :caption => "路径") %>
+		<%= sort_header_tag('wrstatus', :caption => "读写状态") %>
+		<%= sort_header_tag('delete', :caption => "是否删除？") %>
+	</tr>
+	</thead>
+	<tbody>
+	<% @svnmanage.each do |svnmanage| %>
+	<tr class="trunk odd">
+  	<td align="center" class="svntrunk"><%= h(svnmanage.svn_trunk) %></td>
+  	<td align="center" class="svnpath"><%= h(svnmanage.svnpath) %></td>
+  	<td align="center" class="wrstatus"><%= h(svnmanage.wrstatus) %></td>
+  	<td align="center" class="delete"><%=link_to '删除', {:controller => 'svnmanage', :action => 'destroy', :id => @project , :svnpath => svnmanage.svnpath ,:login => @login ,:trunkpath => svnmanage.svn_trunk }, :confirm => "您确定要删除此授权项?", :method => :post, :class => 'icon icon-del' %></td>
+  </tr>
+	<% end %>
+ </tbody>
+</table>
+</div>
+</big>

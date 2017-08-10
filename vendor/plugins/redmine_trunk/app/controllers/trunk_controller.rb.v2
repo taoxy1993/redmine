@@ -1,0 +1,211 @@
+class TrunkController < ApplicationController
+  unloadable
+  before_filter :find_project, :authorize
+
+  helper :sort
+  include SortHelper
+
+  def index
+     sort_init 'trunk' , 'asc'
+     sort_update %w(trunk branches creater)
+     @project_use = Project.find(@project)  
+     project_id = @project_use.id
+     @trunk = Trunk.find(:all,:conditions=> "project_id = '#{project_id}'")
+  end
+
+  def new
+    @project_use = Project.find(@project)   
+    @show_name=@project_use.identifier
+    project_id = @project_use.id
+    @trunk = Trunk.find(:all,:conditions=> "createdate = 'trunk' and project_id = '#{project_id}'")
+    #@trunk = Trunk.find(:all,:conditions => "createdate = 'trunk'")
+    @tag = Trunk.find(:all,:conditions=> "project_id = '#{project_id}'")
+    @tag.each do |tag|
+      if(tag.createdate == 'trunk')
+          tag.branches='HEAD'
+      end
+    end
+    if request.post?
+      puts params[:trunk]
+      a = params[:localpath]
+      puts a
+      @svnroot = "http://mcv.inspur.com/svn/"
+      #"http://mcv.inspur.com/svn/"
+      @identifier = Project.find(@project)   
+      project_id = @identifier.id
+      
+      @user = User.find(User.current)
+      login = @user.login
+      
+      #@findcreate = Trunk.find(:all,:conditions=> "project_id = '#{project_id}'")
+      #if(@findcreate.count > 0)
+        #flash[:notice] = "该项目已经创建过工程！！！"
+        #redirect_to :controller => 'trunk', :action => 'index', :id => @project
+        #return
+      #end
+       if (a != ""&&params[:trunk]!=""&&params[:description]!=""&&a!= nil&&params[:trunk] != nil&&params[:description]!=nil)
+        b = params[:trunk]
+        @findtrunk = Trunk.find(:all,:conditions=> "trunk = '#{b}'")
+        puts @findtrunk.count
+        if(@findtrunk.count > 0)
+          flash[:notice] = "该名字的主线已经创建过！！！"
+          redirect_to :controller => 'trunk', :action => 'index', :id => @project
+        else
+          pjmember = b + ":/"
+           
+          @addsvnmanage = Svnmanage.new(:pjmember => pjmember,:project_id => project_id,:login =>login,:svnpath =>"*",:wrstatus =>"rw")
+          if @addsvnmanage.save
+              set_authz
+          end
+          if(login != "supurman")
+            @addsvnmanage1 = Svnmanage.new(:pjmember => pjmember,:project_id => project_id,:login =>"supurman",:svnpath =>"*",:wrstatus =>"rw")
+            if @addsvnmanage1.save
+                set_authz
+            end
+          end
+          c = params[:description]
+          d = @svnroot + b
+          @e = "请本机上执行svn import " + a +" " + d + "/trunk -m " + "\""+ c + "\"" + " --username " + login
+          f = "svnadmin create " + "/opt/svn/" + b 
+        
+          puts f
+          puts @e
+          system f
+            
+          command = "chown -R apache:apache " + "/opt/svn/" + b
+          puts command
+          system command
+          command = "chown -R daemon " + "/opt/svn/" + b
+          puts command
+          system command
+    
+          command = "svn mkdir " + @svnroot + b + "/trunk" + " -m " + "\""+ "mkdir" + "\"" + " --username supurman" + " --password Inspur_20120703_mEDIAld"
+          system command
+          puts command
+          
+          command = "svn mkdir " + @svnroot + b + "/tags" + " -m " + "\""+ "mkdir" + "\"" + " --username supurman" + " --password Inspur_20120703_mEDIAld"
+          system command
+          puts command
+          
+          command = "svn mkdir " + @svnroot + b + "/branches" + " -m " + "\""+ "mkdir" + "\"" + " --username supurman" + " --password Inspur_20120703_mEDIAld"
+          system command
+          puts command     
+          #system @e
+          
+          @trunk = Trunk.new(:project_id => project_id,:creater =>login,:trunk => b,:createdate=> "trunk")
+          if @trunk.save
+            flash[:notice] = @e
+            redirect_to :controller => 'trunk', :action => 'index', :id => @project
+          end 
+        end
+     else 
+       if(params[:tag]!= ""&&params[:tag]!= nil )
+          b = params[:newtrunk] 
+          c = params[:tag]          
+          d = params[:tag_description]
+          e = params[:newbranches]
+          if(b!= ""&&c != ""&&d != ""&&e!=""&&b!=nil&&c!=nil&&d!=nil&&e!=nil)
+              if(e == "HEAD")
+                @findtrunk = Trunk.find(:all,:conditions=> "trunk = '#{b}' and tags = '#{c}'")
+                if(@findtrunk.count > 0)
+                  flash[:notice] = "该名字的标签已经创建过！！！"
+                  return
+                end
+                @svncommand = "svn copy " + @svnroot + b + "/trunk " +  @svnroot + b + "/tags/" + c +" -m " + "\""+ d + "\"" + " --username supurman" + " --password Inspur_20120703_mEDIAld"
+              else
+                @findtrunk = Trunk.find(:all,:conditions=> "trunk = '#{b}' and tags = '#{c}' and branches = '#{e}'")
+                if(@findtrunk.count > 0)
+                  flash[:notice] = "该名字的标签已经创建过！！！"
+                  return
+                end
+                @svncommand = "svn copy " + @svnroot + b + "/branches/" + e + " " +  @svnroot + b + "/tags/" + c +" -m " + "\""+ d + "\"" + " --username supurman" + " --password Inspur_20120703_mEDIAld"
+              end
+              
+              @trunk = Trunk.new(:project_id => project_id,:creater =>login,:trunk => b,:branches => e,:createdate=> "tags",:tags => c)
+              
+              puts @svncommand
+              system @svncommand
+              if @trunk.save
+                flash[:notice] = "标签创建成功！！！"
+                redirect_to :controller => 'trunk', :action => 'index', :id => @project     
+              end       
+          else
+            flash[:notice] = "请输入参数！！！"
+            redirect_to :controller => 'trunk', :action => 'new', :id => @project
+          end
+       else
+          b = params[:usetrunk] 
+          puts b
+          c = params[:buildbranches]          
+          d = params[:builddescription]
+          o = params[:usebranches]
+          if(b!= ""&&c != ""&&d != ""&&o!=""&&b!=nil&&c!=nil&&d!=nil&&o!=nil)
+            if(o == "HEAD")
+              e = "svn copy " + @svnroot + b + "/trunk " +  @svnroot + b + "/branches/" + c +" -m " + "\""+ d + "\"" + " --username supurman" + " --password Inspur_20120703_mEDIAld"
+            else
+              e = "svn copy " + @svnroot + b + "/branches/" + o + " " +  @svnroot + b + "/branches/" + c +" -m " + "\""+ d + "\"" + " --username supurman" + " --password Inspur_20120703_mEDIAld"
+            end
+            puts e
+            @findtrunk = Trunk.find(:all,:conditions=> "trunk = '#{b}' and branches = '#{c}' ")
+            puts @findtrunk.count
+            if(@findtrunk.count > 0)
+              flash[:notice] = "该名字的分支已经创建过！！！"
+            else
+              pjmember = b + ":/branches/" + c
+              @addsvnmanage = Svnmanage.new(:pjmember => pjmember,:project_id => project_id,:login =>login,:svnpath =>"*",:wrstatus =>"rw")
+              if @addsvnmanage.save
+                  set_authz
+              end
+              if(login != "supurman")
+                @addsvnmanage1 = Svnmanage.new(:pjmember => pjmember,:project_id => project_id,:login =>"supurman",:svnpath =>"*",:wrstatus =>"rw")
+                if @addsvnmanage1.save
+                    set_authz
+                end
+              end
+              system e
+              @trunk = Trunk.new(:project_id => project_id,:creater =>login,:trunk => b,:branches => c,:createdate=> "brahches")
+              if @trunk.save
+                flash[:notice] = "创建成功！！！"
+                redirect_to :controller => 'trunk', :action => 'index', :id => @project
+              end 
+            end
+          else
+            flash[:notice] = "请输入参数！！！"
+            redirect_to :controller => 'trunk', :action => 'new', :id => @project
+          end
+        end
+      end
+    end
+  end
+  
+  private
+
+  def find_project
+    # @project variable must be set before calling the authorize filter
+    @project = Project.find(params[:id]) 
+  end
+  
+  def set_authz
+     @allsvndata = Svnmanage.find(:all)
+     a = "/opt/svn/authz"
+     fd = File.new(a, "w+")
+     @allsvndata.each do |allsvndata|
+        b = allsvndata.pjmember
+        if(b == nil || b == "")
+          next
+        end
+        if (allsvndata.svnpath == "*")
+          @c = "[" + b + "]"
+        else
+          @c = "[" + b + "/" + allsvndata.svnpath + "]"
+        end
+        puts @c
+        d = allsvndata.login + "=" + allsvndata.wrstatus
+        puts d             
+        fd.puts @c
+        fd.puts d
+      end
+      fd.close
+   end
+  end
+

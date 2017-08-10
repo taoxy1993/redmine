@@ -1,0 +1,59 @@
+pt-BR:
+  label_add_review: Adicionar revisão
+  label_show_review: Visualizar revisão
+  code_reviews: Revisões de código
+  code_review: Revisão de código
+  project_module_code_review: Revisões de código
+  label_code_path: Caminho
+  label_code_reviewer: Revisor
+  label_code_author: Committer
+  label_code_line: Linha
+
+  label_review_open: Aberto
+  label_review_closed: Fechado
+
+  label_reopen_review: Reabrir essa revisão
+  label_close_review: Fechar essa revisão
+
+  label_code_review_plural: Revisões de código
+
+  label_line_number: 'Linha: {{line}}'
+  notice_review_updated: Revisão atualizada com sucesso.
+  label_show_closed_reviews: Exibir revisões fechadas.
+  label_review: revisão
+  label_review_new: Nova revisão
+  review_notify_only_involved_in: "Somentes as revisões em que eu estou envolvido"
+  review_notify_all: "Para qualquer revisão em todos os meus projetos"
+
+  old_review_data_found: 'Some old review records were found. Do you want to convert them to new records ?'
+  select_tracker_for_code_reviews: 'Select the tracker for assign to code reviews.'
+  field_hide_code_review_tab: 'Hide the "Code Reviews" tab.'
+  lable_no_code_reviews: 'No reviews'
+  field_comment: Comment
+
+  label_if_revision_has_issues: 'If revision has one more issues'
+  label_review_issue_relates: 'Review issue relates to them'
+  label_review_issue_blocks: 'Review issue blocks them'
+  label_review_issue_do_nothing: 'Do nothing'
+
+  permission_view_code_review: View code reviews
+  permission_add_code_review: Add code reviews
+  permission_edit_code_review: Edit code reviews
+  permission_delete_code_review: Delete code reiews
+  permission_code_review_setting: Manage code reviews
+  permission_assign_code_review: Assign code reviews
+
+  select_tracker_for_code_review_assignment: 'Select the tracker for code review assignments.'
+  field_assignment_tracker: 'Tracker'
+  review_assignments: Review assignments
+  review_assigned_for: Review assigned for
+  code_review_assigned: Assigned
+  code_review_reviewed: Reviewed
+  code_review_requrest: Review request
+
+  label_auto_assign_settings: Auto assignment
+  label_candidates_of_reviewer: Candidates of reviewer
+  label_auto_assignment_filters: Filters
+  auto_assign_filter_expression: 'Path(Regular expression:ex. "/src/.*\.java$")'
+  auto_assign_filter_assign: Assign
+  auto_assign_filter_drop: Drop

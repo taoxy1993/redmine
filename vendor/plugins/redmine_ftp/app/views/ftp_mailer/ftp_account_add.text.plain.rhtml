@@ -1,0 +1,9 @@
+<%= @ftp_account.email %>,
+Our <%= @ftp_account.creator.mail %> provide a FTP for you, the FTP information is listed as follow:
+FTP SITE: <%= @ftp_account.get_ftp_host %>
+Username: <%= @ftp_account.name %>
+Password: <%= @ftp_account.password %>
+Expire: <%= @ftp_account.expire_time %>
+
+
+Note: This message is sent automatically, please do not reply

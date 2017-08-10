@@ -1,0 +1,76 @@
+<% content_for :header_tags do %>
+  <!--引入jquery-->
+  <%= javascript_include_tag 'jquery.min' %>
+  <!--引入select2-->
+  <%= stylesheet_link_tag 'select2.min' %>
+  <%= javascript_include_tag 'select2.min' %>
+<% end %>
+
+<script type="text/javascript">
+  //jquery代码
+  jQuery(document).ready(function() {
+    //设置指派给select支持搜索
+    jQuery('select').select2({
+      placeholder: '请选择',
+      allowClear: true,
+      width: '210px'
+    });
+
+  });
+</script>
+
+<h2>VPN管理</h2>
+
+<% form_tag({:controller => 'vpn_accounts', :action => 'add'}) do%>
+<div>
+  <table>
+    <tr>
+      <td>内部用户【14天】</td>
+      <td>
+        <%= select(:user, :id, User.all.collect{|p| [p.lastname + p.firstname, p.id]}, {:include_blank => true}) %>
+      </td>
+      <td><%= submit_tag "签发" %></td>
+    </tr>
+  </table>
+</div>
+<% end %>
+
+<div class="autoscroll">
+  <table class="list">
+    <thead>
+    <tr>
+      <th>USER</th>
+      <th>CREATE</th>
+      <th>EXPIRE</th>
+      <th>STATUS</th>
+      <th>RESUMED</th>
+      <th>MANAGE</th>
+    </tr>
+    </thead>
+
+    <% @vpn_accounts.each do |vpn_account| %>
+      <tr align="center" class="<%= cycle("odd", "even") %>">
+        <td>
+          <%= vpn_account.owner.lastname + vpn_account.owner.firstname %>
+        </td>
+        <td>
+          <%= DateTime.parse(vpn_account.created_on.to_s).strftime('%Y-%m-%d %H:%M:%S').to_s %>
+        </td>
+        <td>
+          <%= DateTime.parse(vpn_account.expire_time.to_s).strftime('%Y-%m-%d %H:%M:%S').to_s %>
+        </td>
+        <td>
+          <%= vpn_account.status %>
+        </td>
+        <td>
+          <%= vpn_account.resumed %>
+        </td>
+        <td>
+          <%= link_to l(:button_delete),
+                      {:controller => 'vpn_accounts', :action => 'destroy', :id => vpn_account},
+                      {:confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-del'} %>
+        </td>
+      </tr>
+    <% end%>
+  </table>
+</div>

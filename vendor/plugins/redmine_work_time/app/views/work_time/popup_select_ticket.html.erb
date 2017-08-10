@@ -1,0 +1,64 @@
+<html>
+<head>
+<title>select a ticket</title>
+<%=javascript_include_tag "prototype" %>
+<script type="text/javascript">
+<!--
+function ticket_inputed()
+{
+  returnValue = document.forms[0].elements[0].value;
+  close();
+}
+
+function ticket_selected(issue_id)
+{
+  returnValue = issue_id;
+  close();
+}
+
+function checkKey(e)
+{
+  if (!e) var e = window.event;
+  if(e.keyCode == 13) {
+    ticket_inputed();
+    return false;
+  }
+  else
+    return e;
+}
+-->
+</script>
+</head>
+
+<body onLoad="document.forms[0].elements[0].focus();">
+<h2><%=l(:wt_ticket)%></h2>
+
+<select onchange="if (this.value != '') {new Ajax.Updater('tickets', this.value, {asynchronous:true, method:'get'}); return false;}">
+  <option value=''>select project...</option>
+  <option disabled="disabled">---</option>
+<%
+projects = Project.find(:all, :order=>"name")
+projects.each do |prj|
+  next unless prj.active?
+  next if !User.current.allowed_to?(:log_time, prj)
+  members = Member.find(:all, :conditions=>
+            ["user_id=:u and project_id=:p",{:u=>User.current.id, :p=>prj.id}])
+  next if members.size==0
+%>
+  <option value="<%= url_for(:action=>"ajax_select_ticket", :prj=>prj.id) %>">
+    <%= prj.name %> 
+  </option>
+<%
+end
+%>
+</select>
+<br/>
+<div id="tickets">
+or input a ticket number
+  <form action="">
+    <input type="text" size=32 onKeyPress="return checkKey(event);"/>
+    <input type="button" value="<%=l(:button_apply)%>" onclick="ticket_inputed();"/>
+  </form>
+</div>
+</body>
+</html>

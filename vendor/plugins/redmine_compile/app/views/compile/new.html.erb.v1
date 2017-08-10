@@ -1,0 +1,10 @@
+<h2>新建产品</h2>
+<% form_tag do %>
+<big>
+<p>
+	<lable>产品名称:</label>
+	<%= text_field_tag 'new' %>
+</p>
+<p><%= submit_tag '新建' %></p>
+</big>
+<% end %>

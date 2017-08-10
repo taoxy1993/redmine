@@ -1,0 +1,93 @@
+/*
+# Code Review plugin for Redmine
+# Copyright (C) 2009  Haruyuki Iida
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+*/
+#review-form-frame {
+height: 100%;
+}
+
+.autoscroll table.filecontent th.line-num {
+    white-space: nowrap;
+    vertical-align: bottom;
+    padding-top: 0;
+    padding-bottom: 0;
+    text-align:left;
+}
+
+table.filecontent th.line-num img{
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+}
+
+
+.code-review-form-title {
+    background-color: #002059;
+    color: white;
+    padding-left: 2px;
+    padding-right: 2px;
+    cursor: default;
+}
+
+
+.code_review_viewer {
+
+    min-width: 300px;
+    /*
+    max-width: 60%;
+    */
+    /* max-height: 400px; */
+}
+
+.code_review_viewer .issue{
+    
+}
+
+.code_review_body {
+    background-color: white;
+    
+    padding:2px;
+    
+}
+
+#code_review_list table.list td {
+    text-align: center;
+}
+
+#code_review_list table.list td.path {
+    text-align: left;
+}
+
+.icon-review {
+    background-image: url(../images/review.png);
+    background-repeat: no-repeat;
+}
+
+.icon-closed-review {
+    background-image: url(../images/closed_review.png);
+    background-repeat: no-repeat;
+}
+
+.icon-settings {
+    background-image: url(../../../images/changeset.png);
+    background-repeat: no-repeat;
+}
+
+
+li.code_review_summary {
+    list-style-type: none;
+}

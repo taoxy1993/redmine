@@ -1,0 +1,13 @@
+<h2>新建产品</h2>
+<% form_tag do %>
+<hr/>
+<p>
+	<p><label for="trunk"><%= "分支名称"%><span class="required"> *</span></label>
+	<%= select_tag 'trunk',options_for_select(@trunk.collect{|s| [s.branches]}.insert(0))  %> 
+	<p><label for="new"><%= "产品名称"%><span class="required"> *</span></label>
+	<%= text_field_tag 'new', nil, :size => 50  %></p>
+	<%= submit_tag '新建产品' %>
+</p>	
+
+</big>
+<% end %>

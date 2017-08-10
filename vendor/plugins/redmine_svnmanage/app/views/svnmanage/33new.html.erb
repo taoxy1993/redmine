@@ -1,0 +1,24 @@
+<h2>权限分配</h2>
+<big>
+	<%= '人员' %><hr \>
+<% @member.each do |member| %>
+	<% @user.each do |user| %>
+  		<% if (user.id==member.user_id) %>
+  		<p > 
+			<%= user %>  
+			<%= link_to '新增权限路径', {:controller => 'svnmanage', :action => 'allocation', :id => @project, :user => user[:login] }, :class => 'icon icon-add'%>
+  			<br \>
+		 	<% @svnmanage.each do |svnmanage| %>
+		  		<% if user.login == svnmanage.login %>
+		  			<%= svnmanage[:svnpath] %>
+					<%= svnmanage[:wrstatus] %>
+					<%= link_to '删除', {:controller => 'svnmanage', :action => 'destroy', :id => @project , :svnpath => svnmanage[:svnpath] ,:login => svnmanage[:login] }, :confirm => "您确定要删除此授权项?", :method => :post, :class => 'icon icon-del' %>
+					<br \>
+		  		<% end %>
+		  	<% end %>
+		 <hr \>
+ 		 </p>
+		 <% end %>
+	  <% end %>
+<% end %> 
+</big>

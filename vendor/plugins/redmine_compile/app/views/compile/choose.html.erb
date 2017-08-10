@@ -1,0 +1,47 @@
+<h2>编译用途选择</h2>
+
+<div class="box">
+  <% form_tag do %>
+    <!--编译信息 项目 版本树 产品名称-->
+    <fieldset>
+      <legend><b>编译信息</b></legend>
+      <p>
+        <label for=""><b><%= h("项目名称:") %></b></label>
+        <%= @project %>
+        <%= text_field_tag 'project', @project, :size => 50, :hidden=> 1 %>
+      </p>
+      <p>
+        <label for=""><b><%= h("项目标识:") %></b></label>
+        <%= @project.identifier %>
+      </p>
+      <p>
+        <label for=""><b><%= h("版 本 树:") %></b></label>
+        <%= @branches %>
+        <%= text_field_tag 'branches', @branches, :size => 50, :hidden=> 1 %>
+      </p>
+      <p>
+        <label for=""><b><%= h("产品名称:") %></b></label>
+        <%= @propuct %>
+        <%= text_field_tag 'produce', @propuct, :size => 50, :hidden=> 1 %>
+      </p>
+    </fieldset>
+    <!--编译用途-->
+    <fieldset>
+      <legend><b><span class="required">* </span><%= h("编译用途") %></b></legend>
+      <p>
+        <%= radio_button_tag 'usefor', 'TemporaryVersion', true %>临时版本
+        <%= radio_button_tag 'usefor', 'DemoVersion' %>DEMO版本
+        <%= radio_button_tag 'usefor', 'IterativeVersion' %>迭代版本
+        <%= radio_button_tag 'usefor', 'ReleaseVersion' %>正式版本
+      </p>
+    </fieldset>
+    <!--用途详情-->
+    <fieldset>
+      <legend><b><%= h("用途详情") %></b></legend>
+      <p>
+        <%= text_area_tag 'description', nil, :rows => 6, :cols => 60 %>
+      </p>
+    </fieldset>
+    <p><%= submit_tag '提交编译' %> <%= link_to '取消', { :controller => 'compile', :action => 'index', :id => @project } %></p>
+  <% end %>
+</div>

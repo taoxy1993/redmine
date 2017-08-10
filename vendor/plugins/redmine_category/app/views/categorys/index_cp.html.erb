@@ -1,0 +1,44 @@
+<%= render :partial => 'top_link' %>
+<h2>按产品划分</h2>
+<%= render :partial => 'class_link' %>
+
+<% form_tag({}, :method => :get) do %>
+    <fieldset><legend><%= l(:label_filter_plural) %></legend>
+      <label><%= l(:label_project) %>:</label>
+      <%= text_field_tag 'name', params[:name], :size => 30 %>
+      <%= submit_tag l(:button_apply), :class => "small", :name => nil %>
+    </fieldset>
+<% end %>
+&nbsp;
+
+<div class="autoscroll">
+  <!-- 判断@products是否为空 -->
+  <% if @products.empty? %>
+  <p class="nodata"><%= l(:label_no_data) %></p>
+  <% else %>
+    <table class="list">
+      <thead>
+      <tr>
+        <%= sort_header_tag('product_name', :caption => "产品") %>
+        <%= sort_header_tag('proj_name', :caption => "项目") %>
+        <%= sort_header_tag('', :caption => "项目经理") %>
+      </tr>
+      </thead>
+      <tbody>
+      <% @products.each do |product|%>
+          <tr class="<%= cycle 'odd', 'even' %>">
+            <td align="center"><%= product.product_name %></td>
+            <td align="center">
+              <%= link_to format_activity_title(product.proj_name), :action => product.proj_id, :controller => "projects" %>
+            </td>
+            <td align="center"><%= find_project_manager(product.proj_id, "项目经理") %></td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+  <% end %>
+</div>
+
+<% other_formats_links do |f| %>
+    <%= f.link_to 'CSV', :url => params %>
+<% end %>

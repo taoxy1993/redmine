@@ -1,0 +1,69 @@
+<% content_for :header_tags do %>
+    <%#= stylesheet_link_tag 'custom.css', :plugin => 'redmine_departments'%>
+    <%= stylesheet_link_tag 'jquery.orgchart.css', :plugin => 'redmine_departments'%>
+
+    <style>
+        div.orgChart {
+            height: 500px;
+            overflow-x: scroll;
+        }
+        div.orgChart div.node {
+            cursor: pointer;
+            height: auto;
+        }
+        div.orgChart div.node.level1 {
+            background-color: #fbcece;
+        }
+        div.orgChart div.node.level1.special {
+            background-color: white;
+        }
+        div.orgChart div.node.level2 {
+            background-color: #cefbce;
+        }
+        div.orgChart div.node.level3 {
+            background-color: #e0cefb;
+        }
+        div.orgChart div.node.level4 {
+            background-color: #e0fbce;
+        }
+        div.orgChart div.node.level5 {
+            background-color: #fbcee0;
+        }
+    </style>
+
+    <%= javascript_include_tag 'jquery.min.js', :plugin => 'redmine_departments' %>
+    <%= javascript_include_tag 'jquery.orgchart.min.js', :plugin => 'redmine_departments' %>
+
+    <script>
+        $(function() {
+            $("#organization").orgChart({
+                container: $("#orgchart"),
+                interactive: true,
+                fade: true,
+                speed: 'slow',
+                levels: 4,
+                showLevels: 4,
+                stack: true,
+                depth: 4
+                //nodeClicked: onNodeClicked
+            });
+        });
+
+        function onNodeClicked($node) {
+            console.log("node点击事件");
+        }
+    </script>
+
+<% end %>
+
+<body>
+
+<h2><%= link_to '部门', :controller => 'departments', :action => 'index' %> &#187; <%= '组织架构'%></h2>
+
+<div class="autoscroll">
+    <div id="orgchart" onload="window.scrollTo((document.body.scrollWidth-document.body.offsetWidth)/2,0)">
+        <%= render_department_hierarchy(@departments)%>
+    </div>
+</div>
+
+</body>

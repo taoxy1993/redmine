@@ -1,0 +1,42 @@
+<%= render :partial => 'top_link' %>
+<h2>按部门日常工作划分</h2>
+<%= render :partial => 'class_link' %>
+
+<% form_tag({}, :method => :get) do %>
+  <fieldset><legend><%= l(:label_filter_plural) %></legend>
+    <label><%= "部门" %>:</label>
+    <%= text_field_tag 'name', params[:name], :size => 30 %>
+    <%= submit_tag l(:button_apply), :class => "small", :name => nil %>
+  </fieldset>
+<% end %>
+&nbsp;
+
+<div class="autoscroll">
+  <!-- 判断@departments是否为空 -->
+  <% if @departments.empty? %>
+  <p class="nodata"><%= l(:label_no_data) %></p>
+  <% else %>
+  <table class="list">
+    <thead>
+    <tr>
+      <%= sort_header_tag('dep_name', :caption => "部门") %>
+      <%= sort_header_tag('', :caption => "部门经理") %>
+    </tr>
+    </thead>
+    <tbody>
+    <% @departments.each do |department|%>
+        <tr class="<%= cycle 'odd', 'even' %>">
+          <td align="center">
+            <%= link_to format_activity_title(department.dep_name), :action => department.dep_id, :controller => "projects" %>
+          </td>
+          <td align="center"><%= find_project_manager(department.dep_id, "部门经理") %></td>
+        </tr>
+    <% end %>
+    </tbody>
+  </table>
+  <% end %>
+</div>
+
+<% other_formats_links do |f| %>
+    <%= f.link_to 'CSV', :url => params %>
+<% end %>

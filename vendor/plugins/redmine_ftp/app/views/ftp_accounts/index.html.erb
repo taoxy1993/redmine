@@ -1,0 +1,61 @@
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag 'ftp', :plugin => 'redmine_ftp' %>
+<% end %>
+
+<h2>FTP 管理</h2>
+
+<div style="margin: 10px 10px 10px 10px;">
+  注意事项：
+  <ul>
+    <li>严禁上传与工作无关的任何文件及作为个人用。</li>
+    <li>所有上传的文件都将被转储。</li>
+    <li>不得泄露FTP账户及密码给无关人员。</li>
+    <li>请敦促客户在给定时间内完成文件的上传或下载。</li>
+    <li>对于不同的客户（或同一公司的不同项目）应使用不同的账户。</li>
+  </ul>
+</div>
+
+<% form_tag({:controller => 'ftp_accounts', :action => 'add'}) do%>
+  <div class="box">
+    <label for="ftp_account_email"><%= '客户E-Mail'%> <span class="required">*</span></label>
+    <%= text_field(:ftp_account, :email, :size => 40) %>
+    <%= submit_tag l(:button_create) %>
+  </div>
+<% end %>
+
+<div class="autoscroll">
+  <table class="ftplist">
+    <thead>
+      <tr>
+        <th><%= "URL"%></th>
+        <th><%= "Customer"%></th>
+        <th><%= "Message to Customer"%></th>
+        <th><%= "Kill"%></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @ftp_accounts.each do |ftp_account| %>
+      <tr align="center" class="<%= cycle("odd", "even") %>">
+        <td>
+          <%= link_to "进入", "ftp://#{ftp_account.name}:#{ftp_account.password}@10.180.88.70" %>
+        </td>
+        <td>
+          <%= ftp_account.email %>
+        </td>
+        <td>
+          <div>
+            <p><%= 'FTP SITE: ' '10.180.88.70' %></p>
+            <p><%= 'Username: ' + ftp_account.name %></p>
+            <p><%= 'Password: ' + ftp_account.password %></p>
+            <p><%= 'Expire: ' + DateTime.parse(ftp_account.expire_time.to_s).strftime('%Y-%m-%d %H:%M:%S').to_s %></p>
+          </div>
+        <td>
+          <%= link_to l(:button_delete),
+                      {:controller => 'ftp_accounts', :action => 'destroy', :id => ftp_account},
+                      {:confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-del'} %>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

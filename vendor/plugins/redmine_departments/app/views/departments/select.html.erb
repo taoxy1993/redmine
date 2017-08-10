@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title></title>
+  <link href="http://cdn.bootcss.com/select2/3.5.1/select2.min.css" rel="stylesheet">
+  <script src="http://cdn.bootcss.com/jquery/1.8.3/jquery.min.js"></script>
+  <script src="http://cdn.bootcss.com/select2/3.5.1/select2.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      //var data = [{ id: 0, text: 'enhancement' }, { id: 1, text: 'bug' }, { id: 2, text: 'duplicate' }, { id: 3, text: 'invalid' }, { id: 4, text: 'wontfix' }];
+
+      $(".item").select2({
+        //data: [{id: 0, text: 'hello'}]
+      });
+
+    });
+  </script>
+</head>
+<body>
+<div class="controls">
+  <select class="item" style="width:200px"></select>
+</div>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<h2>编译选项</h2>
+<% form_tag do %>
+<big>
+<p>
+	
+<p><label for="branches"><%= "分支名称:"%><span class="required"> *</span></label>
+<%= text_field_tag 'branches', @branches, :size => 50,:readOnly=> 1 %></p> 
+<p><label for="produce"><%= "产品名称:"%><span class="required"> *</span></label>
+<%= text_field_tag 'produce', @propuct, :size => 50,:readOnly=> 1  %></p>
+	
+<p><%= "请注意选择您要编译的选项，请慎重选择!!!"%></p>
+<p><label for="servername"><%= "服务器:"%><span class="required"> *</span></label>
+<%= select_tag 'servername' ,"<option>ubuntu</option>,<option>fedora</option>" %>  
+</p>
+
+<p><label for="repository"><%= "代码仓库:"%><span class="required"> *</span></label>
+<%= select_tag 'repository' ,"<option>svn</option>,<option>cvs</option>,<option>git</option>" %>  
+</p>
+
+<p><label for="chooseoption"><%= "编译条目:"%><span class="required"> *</span></label>
+<%= select_tag 'chooseoption' ,"<option>5</option>,<option>2</option>,<option>3</option>，<option>4</option>,<option>1</option>,<option>6</option>"%>  
+<%= "编译索引请按照以下去选择"%>
+</p>
+
+<p>
+  <!--编译用途-->
+  <%= text_field_tag 'usefor', @usefor, :size => 50, :hidden=> 1 %>
+  <!--用途描述-->
+  <%= text_field_tag 'description', @description, :size => 50, :hidden=> 1 %>
+</p>
+
+<p><%= @option1 %></p>
+<p><%= @option2 %></p>
+<p><%= @option3 %></p>
+<p><%= @option4 %></p>
+<p><%= @option5 %></p>
+<p><%= @option6 %></p>
+<%= submit_tag '开始编译' %>
+</big>
+</p>
+<% end %>
+

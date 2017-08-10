@@ -1,0 +1,15 @@
+<h2>在线编译</h2>
+<big>
+<p>
+不要刷新本页!<br />
+在结果未出来前，不要关闭本页! <br />
+请用打开新窗口或标签的方式访问下面的链接!<br /><br />
+
+<p>查看<a href="#<%= @logpath %>">打印</a></p>
+<p>查看<a href="#<%= @outpath %>">生成文件</a></p>
+You can use wget to download this directory:<br />
+wget -m -np 
+<%= @outpath %><br /><br />
+<%= link_to '确定', { :controller => 'compile', :action => 'index', :id => @project }%>
+</p>
+</big>

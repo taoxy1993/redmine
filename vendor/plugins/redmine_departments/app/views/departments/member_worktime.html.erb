@@ -1,0 +1,130 @@
+<div class="contextual">
+  <%= link_to "新建部门", {:action => 'new'}, :class => 'icon icon-add' %> |
+  <%= link_to "组织架构", {:action => 'orgchart'}, :class => 'groups' %>
+</div>
+
+<h2>时间</h2>
+
+<h2><%= l(:timesheet_title)%></h2>
+
+<div id="timesheet-form">
+  <fieldset>
+    <% form_for :timesheet, :url =>{:action => 'report'} do |f|  %>
+
+      <p id="date-options">
+        <label><%= l(:label_date)%>:</label><br />
+        <%= radio_button_tag 'timesheet[period_type]', '1', @timesheet.period_type == Timesheet::ValidPeriodType[:default] %>
+        <%= select_tag 'timesheet[period]', options_for_period_select((params[:timesheet].nil? ? nil : params[:timesheet][:period])),
+                       :onfocus => '$("timesheet_period_type_1").checked = true;' %>
+        <br /><br />
+
+        <%= radio_button_tag 'timesheet[period_type]', '2', @timesheet.period_type  == Timesheet::ValidPeriodType[:free_period] %>
+        <span onclick="$('timesheet_period_type_2').checked = true;">
+    <label for="timesheet_date_from"><%= l(:timesheet_date_from_label)%>:</label><br />
+          <%= f.text_field "date_from", :size => 10 %><%= calendar_for('timesheet_date_from') %><br />
+
+    <label for="timesheet_date_to"><%= l(:timesheet_date_to_label)%>:</label><br />
+          <%= f.text_field "date_to", :size => 10 %><%= calendar_for('timesheet_date_to') %><br /><br />
+  </span>
+      </p>
+
+      <p>
+        <label for="timesheet_sort"><%= l(:timesheet_group_by) %>:</label><br />
+        <%= select_tag("timesheet[sort]", options_for_select(Timesheet::ValidSortOptions.invert, @timesheet.sort)) %>
+
+      </p>
+
+      <p>
+        <label for="timesheet_projects_" class="select_all"><%= l(:timesheet_project_label)%>:</label><br />
+        <%= select_tag 'timesheet[projects][]', project_options(@timesheet), { :multiple => true, :size => @list_size} %>
+      </p>
+
+
+      <p>
+        <label for="timesheet_activities_" class="select_all"><%= l(:timesheet_activities_label)%>:</label><br />
+        <%= select_tag 'timesheet[activities][]', activity_options(@timesheet, @activities), { :multiple => true, :size => @list_size} %>
+      </p>
+
+      <p>
+        <label for="timesheet_users_" class="select_all"><%= l(:timesheet_users_label)%>:</label><br />
+        <%= select_tag 'timesheet[users][]', user_options(@timesheet), { :multiple => true, :size => @list_size} %>
+      </p>
+
+<%# TODO: Typo on hook %>
+      <%= call_hook(:plugin_timesheet_view_timesheet_form, { :timesheet => @timesheet, :params => params, :list_size => @list_size }) %>
+      <%= call_hook(:plugin_timesheet_views_timesheet_form, { :timesheet => @timesheet, :params => params, :list_size => @list_size }) %>
+
+      <div class="clear"></div>
+      <%= submit_tag l(:button_apply),:class => 'button-small' -%>
+
+    <% end %>
+    <%= button_to(l(:button_reset), {:controller => 'timesheet', :action => 'reset'}, :method => 'delete') %>
+  </fieldset>
+</div>
+
+
+<% content_for(:header_tags) do %>
+  <%= stylesheet_link_tag "timesheet.css", :plugin => "timesheet_plugin", :media => 'all' %>
+  <%= javascript_include_tag 'timesheet.js', :plugin => 'timesheet_plugin' %>
+<% end %>
+
+
+<div class="autoscroll">
+  <table class="list issues">
+    <thead>
+    <th width="2%">
+      <%= link_to image_tag('toggle_check.png'), {}, :onclick => 'toggleIssuesSelection(Element.up(this, "table")); return false;',
+                  :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}", :class => 'toggle-all' %>
+    </th>
+    <th width="8%"><%= l(:label_date) %></th>
+    <th width="10%"><%= l(:label_member) %></th>
+    <th width="15%"><%= l(:label_activity) %></th>
+    <th width="15%"><%= l(:label_project) %></th>
+    <th width="10%"><%= l(:label_issue) %></th>
+    <th width="25%"><%= l(:field_comments) %></th>
+    <th width="10%"><%= l(:field_hours) %></th>
+    <%= Redmine::Hook.call_hook(:plugin_timesheet_views_timesheet_group_header, { }) %>
+    <th></th>
+    </thead>
+    <tbody>
+    <% @time_entries.each do |time_entry| %>
+      <!--<tr>-->
+      <!--<th><%= time_entry.id%></th>-->
+      <!--<th><%= time_entry.spent_on%></th>-->
+      <!--<th><%= time_entry.hours%></th>-->
+      <!--<th><%= time_entry.comments%></th>-->
+      <!--</tr>-->
+      <tr id="time_entry_<%= time_entry.id %>" class="time_entry <%= cycle("odd", "even") %> hascontextmenu <%= call_hook(:plugin_timesheet_view_timesheets_time_entry_row_class, {:time_entry => time_entry }) %> <%= call_hook(:plugin_timesheet_views_timesheets_time_entry_row_class, {:time_entry => time_entry }) %>">
+        <td align="center"><%= check_box_tag 'ids[]', time_entry.id, false, { :class => 'checkbox' } %></td>
+        <td align="center"><%= format_date(time_entry.spent_on) %></td>
+        <td align="center"><%= time_entry.user.name %></td>
+        <td align="center"><%= time_entry.activity.name %></td>
+        <td align="center"><%= time_entry.project.name %></td>
+        <td align="center">
+          <% if time_entry.issue %>
+            <div class="tooltip">
+              <%= link_to_issue time_entry.issue %>
+              <span class="tip">
+          <%= render_issue_tooltip time_entry.issue %>
+        </span>
+            </div>
+          <% end %>
+        </td>
+        <td><%=h time_entry.comments %></td>
+        <td align="center"><strong><%= number_with_precision(time_entry.hours, @precision) %></strong></td>
+        <%= Redmine::Hook.call_hook(:plugin_timesheet_views_timesheet_time_entry, {:time_entry => time_entry, :precision => @precision }) %>
+        <td align="center">
+          <% if time_entry.editable_by?(User.current) -%>
+            <%= link_to image_tag('edit.png'), {:controller => 'timelog', :action => 'edit', :id => time_entry},
+                        :title => l(:button_edit) %>
+            <%= link_to image_tag('delete.png'), {:controller => 'timelog', :action => 'destroy', :id => time_entry},
+                        :confirm => l(:text_are_you_sure),
+                        :method => :delete,
+                        :title => l(:button_delete) %>
+          <% end -%>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>

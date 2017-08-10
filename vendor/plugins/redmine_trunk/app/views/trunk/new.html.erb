@@ -1,0 +1,46 @@
+<h2>新建</h2>
+<% form_tag do %>
+<big>
+<p>	
+	新建主线:<br />
+	<p><label for="repository_name"><%= "主线名称"%><span class="required"> *</span></label>
+	<%= text_field_tag 'repository_name', @show_name, :size => 50 ,:readOnly=> 1 %></p>
+	<p><label for="localpath"><%= "本地目录"%><span class="required"> *</span></label>
+	<%= text_field_tag 'localpath', nil, :size => 50  %></p>
+	<p><label for="description"><%= "英文描述"%><span class="required"> *</span></label>
+	<%= text_field_tag 'description', nil, :size => 50  %></p>
+	<%= submit_tag '新建主线' %>
+</p>	
+<% end %>
+<% form_tag do %>
+<hr/>
+<p>
+	新建分支:<br />	
+	<p><label for="usetrunk"><%= "主线名称"%><span class="required"> *</span></label>
+	<%= select_tag 'usetrunk',options_for_select(@trunk.collect{|s| [s.repository_name]}.insert(0))  %>
+	<p><label for="usebranches"><%= "分支名称"%><span class="required"> *</span></label>
+	<%= select_tag 'usebranches',options_for_select(@tag.collect{|s| [s.branches]}.insert(0))  %> 
+	<p><label for="buildbranches"><%= "新建名称"%><span class="required"> *</span></label>
+	<%= text_field_tag 'buildbranches', nil, :size => 50  %></p>
+	<p><label for="builddescription"><%= "英文描述"%><span class="required"> *</span></label>
+	<%= text_field_tag 'builddescription', nil, :size => 50  %></p>
+	<%= submit_tag '新建分支' %>
+</p>	
+<% form_tag do %>
+<hr/>
+<p>	
+	新建标签:<br />
+	<p><label for="newtrunk"><%= "主线名称"%><span class="required"> *</span></label>
+	<%= select_tag 'newtrunk',options_for_select(@trunk.collect{|s| [s.repository_name]}.insert(0))  %>
+	<p><label for="newbranches"><%= "分支名称"%><span class="required"> *</span></label>
+	<%= select_tag 'newbranches',options_for_select(@tag.collect{|s| [s.branches]}.insert(0))  %> 
+	<p><label for="tag"><%= "标签名称"%><span class="required"> *</span></label>
+	<%= text_field_tag 'tag', nil, :size => 50  %></p>
+	<p><label for="tag_description"><%= "英文描述"%><span class="required"> *</span></label>
+	<%= text_field_tag 'tag_description', nil, :size => 50  %></p>
+	<%= submit_tag '新建标签' %>
+</p>	
+<% end %>
+</big>
+<% end %>
+

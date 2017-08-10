@@ -1,0 +1,9 @@
+<div class="contextual">
+  <%= link_to l(:label_profile), {:controller => 'departments', :action => 'show', :id => @department}, :class => 'icon icon-departments' %>
+</div>
+
+<h2><%= link_to '部门', :controller => 'departments', :action => 'index' %> &#187; <%= @department.name%></h2>
+
+<%= render_tabs group_settings_tabs %>
+
+<% html_title(l(:label_group), @group, l(:label_administration)) -%>

@@ -1,0 +1,2 @@
+module DepartmentUsersHelper
+end

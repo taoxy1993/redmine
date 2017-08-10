@@ -1,0 +1,13 @@
+<!-- <h3>
+  <%= link_to '按部门日常工作划分', { :controller => 'categorys', :action => 'index' }%> |
+  <%= link_to '按产品划分', { :controller => 'categorys', :action => 'index_cp' }%> |
+  <%= link_to '按项目划分', { :controller => 'categorys', :action => 'index_xm' }%>
+</h3> -->
+
+<div class="tabs">
+<ul>
+	<li><%= link_to '按部门日常工作划分', { :controller => 'categorys', :action => 'index' }, :class => (@controller.action_name == 'index' ? 'selected' : nil) %></li>
+	<li><%= link_to '按产品划分', { :controller => 'categorys', :action => 'index_cp' }, :class => (@controller.action_name == 'index_cp' ? 'selected' : nil) %></li>
+	<li><%= link_to '按项目划分', { :controller => 'categorys', :action => 'index_xm' }, :class => (@controller.action_name == 'index_xm' ? 'selected' : nil) %></li>
+</ul>
+</div>
